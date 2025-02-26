@@ -7,6 +7,7 @@
     <h2>Upload Excel File</h2>
     <input type="file" id="fileUpload" accept=".xlsx, .xls" />
     <button onclick="uploadFile()">Upload and Send Messages</button>
+    <div id="responseMessage"></div>
 
     <script>
         function uploadFile() {
@@ -23,17 +24,14 @@
                 method: 'POST',
                 body: formData
             })
-            .then(response => {
-                if (response.ok) {
-                    alert('File uploaded and messages sent successfully');
-                } else {
-                    alert('Error uploading file');
-                }
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('responseMessage').innerHTML = html;
             })
             .catch(error => {
-                alert('Error: ' + error.message);
+                document.getElementById('responseMessage').innerHTML = `<span style="color: red;">Error: ${error.message}</span>`;
             });
         }
     </script>
 </body>
-</html>i
+</html>
